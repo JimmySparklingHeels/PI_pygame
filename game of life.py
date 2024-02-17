@@ -7,9 +7,11 @@ gray = (128, 128, 128)
 black = (0, 0, 0)
 red = (255, 0, 0)
 azure = (0, 128, 255)
+#Скейлинг для размера окна
+dis_scale = 2
 #Разрешение окна
-dis_width = 400
-dis_height = 400
+dis_width = 400 * dis_scale
+dis_height = 400 * dis_scale
 dis = pygame.display.set_mode((dis_width, dis_height))
 #Заголовок окна
 pygame.display.set_caption("Conway's Game of Life")
@@ -21,45 +23,45 @@ message_font = pygame.font.SysFont("bahnschrift", 20)
 #Функция для вывода номера хода
 def print_turn(turn):
     value = debug_font.render("Время: " + str(turn), True, red)
-    dis.blit(value, [0, 24])
+    dis.blit(value, [0, 24 * dis_scale])
 #Функция для вывода уведомления о паузе
 def print_pause():
-    pygame.draw.rect(dis, black, [dis_width/2 - 130, 40, 280, 50])
+    pygame.draw.rect(dis, black, [dis_width/2 - 130, 40 * dis_scale, 280, 50 * dis_scale])
     value = message_font.render("Игра на паузе", True, red)
-    dis.blit(value, [dis_width/2 - 65, 40])
+    dis.blit(value, [dis_width/2 - 65, 40 * dis_scale])
     value = message_font.render("Нажмите C чтобы продолжить", True, red)
-    dis.blit(value, [dis_width/2 - 130, 70])
+    dis.blit(value, [dis_width/2 - 130, 70 * dis_scale])
 #Функция для вывода уведомления об окончании игры
 def print_gameover():
-    pygame.draw.rect(dis, black, [dis_width/2 - 130, 40, 280, 50])
+    pygame.draw.rect(dis, black, [dis_width/2 - 130, 40 * dis_scale, 280, 50 * dis_scale])
     value = message_font.render("Игра окончена!", True, red)
-    dis.blit(value, [dis_width/2 - 70, 40])
+    dis.blit(value, [dis_width/2 - 70, 40 * dis_scale])
     value = message_font.render("Нажмите R чтобы переиграть", True, red)
-    dis.blit(value, [dis_width/2 - 130, 70])
+    dis.blit(value, [dis_width/2 - 130, 70 * dis_scale])
 #Функция для вывода уведомления о зацикливании игры
 def print_gamerepeat():
     value = message_font.render("Игра зациклилась!", True, red)
-    dis.blit(value, [dis_width/2 - 85, 40])
+    dis.blit(value, [dis_width/2 - 85, 40 * dis_scale])
     value = message_font.render("Нажмите R чтобы переиграть", True, red)
-    dis.blit(value, [dis_width/2 - 130, 70])
+    dis.blit(value, [dis_width/2 - 130, 70 * dis_scale])
 #Функция для прорисовки фона
 def draw_background():
-    pygame.draw.rect(dis, gray, [100, 100, 200, 200], 2)
+    pygame.draw.rect(dis, gray, [100 * dis_scale, 100 * dis_scale, 200 * dis_scale, 200 * dis_scale], 2)
     value = message_font.render("Conway's Game of Life", True, azure)
-    dis.blit(value, [dis_width/2 - 100, 305])
+    dis.blit(value, [dis_width/2 - 100, 305 * dis_scale])
     value = message_font.render("Нажмите P для паузы", True, azure)
-    dis.blit(value, [20, 330])
+    dis.blit(value, [20 * dis_scale, 330 * dis_scale])
     value = message_font.render("Нажмите Q для выхода", True, azure)
-    dis.blit(value, [20, 350])
+    dis.blit(value, [20 * dis_scale, 350 * dis_scale])
     value = message_font.render("Нажмите R для перезапуска", True, azure)
-    dis.blit(value, [20, 370])
+    dis.blit(value, [20 * dis_scale, 370 * dis_scale])
 #Функция для отрисовки клеток и вычисления идентификатора хода
 def processCell(alive, x, y, gamestate):
     if alive == True:
-        pygame.draw.rect(dis, white, [100 + 20 * x, 100 + 20 * y, 20, 20])
+        pygame.draw.rect(dis, white, [100 * dis_scale + 20 * x, 100 * dis_scale + 20 * y, 20, 20])
         gamestate = gamestate + "1"
     else:
-        pygame.draw.rect(dis, black, [100 + 20 * x, 100 + 20 * y, 20, 20])
+        pygame.draw.rect(dis, black, [100 * dis_scale + 20 * x, 100 * dis_scale + 20 * y, 20, 20])
         gamestate = gamestate + "0"
     return gamestate
 
@@ -71,7 +73,7 @@ def gameLoop():
     gameover = False #Конец игры
     gameover_message = False
     gamerepeat = False #Игра зациклилась
-    fieldlen = 10 #Размер поля
+    fieldlen = 10 * dis_scale #Размер поля
     cells = [[False] * fieldlen for i in range (fieldlen)] #Массив состояния клеток
     nextcells = [[False] * fieldlen for i in range (fieldlen)] #Массив состояния клеток на следующий ход
     gamestate = [] #Идентификатор хода
