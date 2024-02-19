@@ -206,7 +206,7 @@ def gameLoop():
                 gamerepeat = True
         #Копируем массив клеток следующего хода в массив клеток данного хода
         cells = copy.deepcopy(nextcells)
-        #draw_background()
+        draw_background()
         #Если игра зациклилась, вывести сообщение
         if gamerepeat == True:
             print_gamerepeat()
